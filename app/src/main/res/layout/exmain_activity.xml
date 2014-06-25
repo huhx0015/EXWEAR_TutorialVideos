@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/exmain_activity_layout"
+    android:background="@android:color/black">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/exmain_center_container">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:id="@+id/exmain_button_container">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/exmain_video_row_1">
+
+                <FrameLayout
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:id="@+id/exmain_video_1_container">
+
+                    <ImageButton
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:text="START ENGINE"
+                        android:id="@+id/exmain_video_1"
+                        android:layout_gravity="center"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:textColor="@android:color/white"
+                        android:typeface="sans"
+                        android:background="@drawable/ex_menu_clickable"
+                        android:src="@drawable/step1"
+                        android:scaleType="fitXY"
+                        android:clickable="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="START ENGINE"
+                        android:id="@+id/exmain_video_text_1"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:typeface="sans"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="center_horizontal"
+                        android:clickable="true"
+                        android:padding="5dp" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:id="@+id/exmain_video_2_container">
+
+                    <ImageButton
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:text="TAKE OFF"
+                        android:id="@+id/exmain_video_2"
+                        android:layout_gravity="center"
+                        android:layout_above="@+id/ex_button_4"
+                        android:layout_toRightOf="@+id/ex_button_1"
+                        android:textColor="@android:color/white"
+                        android:typeface="sans"
+                        android:background="@drawable/ex_menu_clickable"
+                        android:src="@drawable/step2"
+                        android:scaleType="fitXY"
+                        android:clickable="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TAKE OFF"
+                        android:id="@+id/exmain_video_text_2"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"
+                        android:typeface="sans"
+                        android:textSize="18sp"
+                        android:layout_gravity="top|center_horizontal"
+                        android:padding="5dp" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/exmain_video_row_2">
+
+                <FrameLayout
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:id="@+id/exmain_video_3_container">
+
+                    <ImageButton
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:text="IN FLIGHT"
+                        android:id="@+id/exmain_video_3"
+                        android:layout_alignTop="@+id/ex_button_4"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:textColor="@android:color/white"
+                        android:layout_gravity="center"
+                        android:typeface="sans"
+                        android:background="@drawable/ex_menu_clickable"
+                        android:src="@drawable/step3"
+                        android:scaleType="fitXY"
+                        android:clickable="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/exmain_video_text_3"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:typeface="sans"
+                        android:text="IN FLIGHT"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="5dp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:id="@+id/exmain_video_4_container">
+
+                    <ImageButton
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:text="LANDING"
+                        android:id="@+id/exmain_video_4"
+                        android:layout_below="@+id/ex_button_1"
+                        android:layout_toRightOf="@+id/ex_button_3"
+                        android:textColor="@android:color/white"
+                        android:layout_gravity="center"
+                        android:typeface="sans"
+                        android:background="@drawable/ex_menu_clickable"
+                        android:src="@drawable/step4"
+                        android:scaleType="fitXY"
+                        android:clickable="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="LANDING"
+                        android:id="@+id/exmain_video_text_4"
+                        android:textStyle="bold"
+                        android:typeface="sans"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/white"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="5dp" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/exmain_video_container">
+
+            <VideoView
+                android:id="@+id/exmain_video_view"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:padding="10dp"
+        android:id="@+id/exmain_copyright_container">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:background="@android:color/holo_blue_dark"
+            android:id="@+id/exmain_copyright_bar">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="© 2014 GPOP"
+                android:id="@+id/exmain_copyright_text"
+                android:textColor="@android:color/white"
+                android:padding="5dp"
+                android:layout_gravity="right"
+                android:textSize="10sp"
+                android:typeface="sans" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,16 +1,13 @@
 package com.gpop.exwear;
 
 import android.content.Context;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.net.Uri;
-import android.util.SparseIntArray;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
 /** -----------------------------------------------------------------------------------------------
  *  [EXVideos] CLASS
+ *  Description: This class handles the video playback for the application.
  *  -----------------------------------------------------------------------------------------------
  */
 
@@ -26,16 +23,16 @@ public class EXVideos {
 
     /** INITIALIZATION FUNCTIONALITY ___________________________________________________________ **/
 
-    // CAVSounds(): Constructor for CAVSounds class.
+    // EXVideos(): Constructor for EXVideos class.
     private final static EXVideos ex_videos = new EXVideos();
 
-    // CAVSounds(): Deconstructor for CAVSounds class.
+    // EXVideos(): Deconstructor for EXVideos class.
     private EXVideos() {}
 
-    // getInstance(): Returns the cav_sounds instance.
+    // getInstance(): Returns the ex_videos instance.
     public static EXVideos getInstance() { return ex_videos; }
 
-    // initializeCAV(): Initializes the CAVSounds class variables.
+    // initializeEX(): Initializes the EXVideos class variables.
     public void initializeVideo(Context con, VideoView view) {
 
         exwear_context = con;
@@ -47,26 +44,27 @@ public class EXVideos {
 
     /** CLASS FUNCTIONALITY ____________________________________________________________________ **/
 
+    // launchVideo(): Launches the video for playback.
     public void launchVideo(String url, int position) {
 
-        this.currentVideo = url;
+        this.currentVideo = url; // Sets the URL.
 
+        // Prepares the VideoView for video playback.
         exwearVideoView.setVideoURI(Uri.parse(url));
         exwearVideoView.setMediaController(new MediaController(exwear_context));
         exwearVideoView.requestFocus();
 
-        // If the video was previously paused, resume the video at it's previous location.
+        // If the video was previously paused, resume the video at its previous location.
         if (isPaused == true) {
             exwearVideoView.seekTo(videoPosition); // Jumps to the position where the video left off.
-            isPaused = false; // Indicates that the video is no longer paused.
-        }
-        else {
-            exwearVideoView.seekTo(position);
+            isPaused = false; // Indicates that the video is no longer paused
         }
 
-        exwearVideoView.start();
+        else { exwearVideoView.seekTo(position); } // Sets the video to the specified playback position.
+        exwearVideoView.start(); // Starts the video.
     }
 
+    // skipToPosition(): Fast forwards or rewinds the video.
     public void skipToPosition(Boolean isForward) {
 
         // Checks to see if exwearVideo has been initiated first before fast forwarding.
@@ -75,20 +73,15 @@ public class EXVideos {
             videoPosition = exwearVideoView.getCurrentPosition(); // Retrieves the current video position and saves it.
 
             // If fast forwarding, add time onto the video.
-            if (isForward) {
-                videoPosition = videoPosition + 60000;
-            }
-            else {
-                videoPosition = videoPosition - 60000;
-            }
+            if (isForward) { videoPosition = videoPosition + 60000; }
+            else { videoPosition = videoPosition - 60000; }
 
             // Stops the video only if there is a video is currently playing.
-            if (exwearVideoView.isPlaying() == true) {
-                exwearVideoView.seekTo(videoPosition); // Jumps to the position.
-            }
+            if (exwearVideoView.isPlaying() == true) { exwearVideoView.seekTo(videoPosition); } // Jumps to the position.
         }
     }
 
+    // pauseVideo(): Pauses the video if it currently playing.
     public void pauseVideo() {
 
         // Checks to see if exwearVideo has been initialized first before saving the video position and pausing the video.

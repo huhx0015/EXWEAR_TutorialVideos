@@ -1,21 +1,9 @@
 package com.gpop.exwear;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.squareup.picasso.Picasso;
-import java.util.Locale;
-
 
 /** -----------------------------------------------------------------------------------------------
  *  [EXSplash] CLASS

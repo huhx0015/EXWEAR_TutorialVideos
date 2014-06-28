@@ -17,7 +17,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:id="@+id/exmain_button_container">
+            android:id="@+id/exmain_button_container"
+            android:layout_weight="1">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -28,13 +29,14 @@
                 android:id="@+id/exmain_video_row_1">
 
                 <FrameLayout
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:id="@+id/exmain_video_1_container">
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/exmain_video_1_container"
+                    android:layout_weight="1">
 
                     <ImageButton
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
                         android:text="START ENGINE"
                         android:id="@+id/exmain_video_1"
                         android:layout_gravity="center"
@@ -65,13 +67,14 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:id="@+id/exmain_video_2_container">
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/exmain_video_2_container"
+                    android:layout_weight="1">
 
                     <ImageButton
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
                         android:text="TAKE OFF"
                         android:id="@+id/exmain_video_2"
                         android:layout_gravity="center"
@@ -108,13 +111,14 @@
                 android:id="@+id/exmain_video_row_2">
 
                 <FrameLayout
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:id="@+id/exmain_video_3_container">
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/exmain_video_3_container"
+                    android:layout_weight="1">
 
                     <ImageButton
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
                         android:text="IN FLIGHT"
                         android:id="@+id/exmain_video_3"
                         android:layout_alignTop="@+id/ex_button_4"
@@ -143,13 +147,14 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:id="@+id/exmain_video_4_container">
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/exmain_video_4_container"
+                    android:layout_weight="1">
 
                     <ImageButton
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
                         android:text="LANDING"
                         android:id="@+id/exmain_video_4"
                         android:layout_below="@+id/ex_button_1"
@@ -179,16 +184,18 @@
 
         </LinearLayout>
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/exmain_video_container">
+            android:id="@+id/exmain_video_container"
+            android:layout_weight="1"
+            android:visibility="gone">
 
             <VideoView
                 android:id="@+id/exmain_video_view"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-        </FrameLayout>
+                android:layout_height="fill_parent" />
+        </RelativeLayout>
 
     </LinearLayout>
 

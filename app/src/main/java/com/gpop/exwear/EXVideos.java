@@ -1,6 +1,7 @@
 package com.gpop.exwear;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.widget.MediaController;
 import android.widget.VideoView;
@@ -18,7 +19,7 @@ public class EXVideos {
     private Boolean isPaused; // Used for determining if a video has been paused.
     private Context exwear_context; // Context for the instance in which this class is used.
     public String currentVideo; // Used for determining what video is playing in the background.
-    private VideoView exwearVideoView; // View for the instance.
+    public VideoView exwearVideoView; // View for the instance.
     public int videoPosition; // Used for resuming playback on a video that was paused.
 
     /** INITIALIZATION FUNCTIONALITY ___________________________________________________________ **/
@@ -62,6 +63,14 @@ public class EXVideos {
 
         else { exwearVideoView.seekTo(position); } // Sets the video to the specified playback position.
         exwearVideoView.start(); // Starts the video.
+
+        //
+        exwearVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+            public void onPrepared(MediaPlayer mp) {
+
+            }
+        });
     }
 
     // skipToPosition(): Fast forwards or rewinds the video.

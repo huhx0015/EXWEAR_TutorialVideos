@@ -3,7 +3,9 @@ package com.gpop.exwear;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.VideoView;
 
 /** -----------------------------------------------------------------------------------------------
@@ -19,7 +21,9 @@ public class EXVideos {
     private Boolean isPaused; // Used for determining if a video has been paused.
     private Context exwear_context; // Context for the instance in which this class is used.
     public String currentVideo; // Used for determining what video is playing in the background.
+    public ProgressBar exwearProgress; // ProgressBar object associated with the exwearVideoView object.
     public VideoView exwearVideoView; // View for the instance.
+    public long videoLength; // Used for determining the total video length.
     public int videoPosition; // Used for resuming playback on a video that was paused.
 
     /** INITIALIZATION FUNCTIONALITY ___________________________________________________________ **/
@@ -46,7 +50,7 @@ public class EXVideos {
     /** CLASS FUNCTIONALITY ____________________________________________________________________ **/
 
     // launchVideo(): Launches the video for playback.
-    public void launchVideo(String url, int position) {
+    public void launchVideo (String url, int position) {
 
         this.currentVideo = url; // Sets the URL.
 
@@ -64,14 +68,44 @@ public class EXVideos {
         else { exwearVideoView.seekTo(position); } // Sets the video to the specified playback position.
         exwearVideoView.start(); // Starts the video.
 
-        //
+        /*
+        // Prepares a listener for the VideoView object.
         exwearVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 
+            @Override
             public void onPrepared(MediaPlayer mp) {
-
+                //videoLength = exwearVideoView.getDuration(); // Gets the total video length.
             }
         });
+        */
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+        // EXPERIMENTAL (TO DETECT IF VIDEO HAS STOPPED PLAYING.
+        exwearVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+        {
+            @Override
+            public void onCompletion(MediaPlayer mp)
+            {
+                // Video Playing is completed
+            }
+        });
+*/
+
+
+
     }
+
 
     // skipToPosition(): Fast forwards or rewinds the video.
     public void skipToPosition(Boolean isForward) {

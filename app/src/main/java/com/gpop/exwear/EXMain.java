@@ -37,12 +37,17 @@ public class EXMain extends FragmentActivity {
 
     // LAYOUT VARIABLES
     private Boolean showVidMenu = false; // Used to determine if the video menu is currently being displayed.
+    private Button rewatchButton, nextButton; // References the REWATCH & NEXT buttons.
     private FrameLayout exmain_container_1, exmain_container_2, exmain_container_3, exmain_container_4;
     private ImageButton menuLeftButton, menuRightButton, video_1, video_2, video_3, video_4;
     private LinearLayout exmain_button_row_1, exmain_button_row_2, exmain_video_row_1, exmain_video_row_2;
-    private TextView exmain_default_1, exmain_default_2, exmain_default_3, exmain_default_4,
+    private TextView exmain_completion_text, exmain_default_1, exmain_default_2, exmain_default_3, exmain_default_4,
             loading_text, video_text_1, video_text_2, video_text_3, video_text_4;
     private VideoView exmainVideoView; // Used to reference the VideoView view object.
+
+    private String videoLabel; // Used to determine the name of the video segment that was previously being played.
+    private String currentVideo; // Used to determine the video that is currently being played.
+    private int startingPoint; // Used to determine the video's starting position.
 
     // SYSTEM VARIABLES
     private int currentOrientation = 0; // Used to determine the device's orientation. (0: PORTRAIT / 1: LANDSCAPE)
@@ -144,6 +149,10 @@ public class EXMain extends FragmentActivity {
         if (showVidMenu) {
             exVideos.getInstance().stopVideo();
             displayVideo(false);
+
+            // Hides all containers within the exmain_video_container.
+            displayCompletion(false);
+            displayNextAction(false);
         }
 
         // Terminates the application, along with all related activities.
@@ -193,21 +202,41 @@ public class EXMain extends FragmentActivity {
 
     /** LAYOUT FUNCTIONALITY _______________________________________________________________ **/
 
+    // displayLoading(): Displays the completion screen.
+    private void displayCompletion(Boolean isCompleted) {
+
+        FrameLayout exmainCompletedContainer = (FrameLayout) findViewById(R.id.exmain_completion_container);
+
+        // Displays the loading container.
+        if (isCompleted) { exmainCompletedContainer.setVisibility(View.VISIBLE); }
+
+        // Hides the loading container.
+        else { exmainCompletedContainer.setVisibility(View.GONE); }
+    }
+
     // displayLoading(): Displays the loading screen.
     private void displayLoading(Boolean isLoading) {
 
         FrameLayout exmainLoadingContainer = (FrameLayout) findViewById(R.id.exmain_loading_container);
 
         // Displays the loading container.
-        if (isLoading) {
-            exmainLoadingContainer.setVisibility(View.VISIBLE);
-        }
+        if (isLoading) { exmainLoadingContainer.setVisibility(View.VISIBLE); }
 
         // Hides the loading container.
-        else {
-            exmainLoadingContainer.setVisibility(View.GONE);
-        }
+        else { exmainLoadingContainer.setVisibility(View.GONE); }
+    }
 
+    // displayNextAction(): Displays the buttons after video playback has been completed.
+    private void displayNextAction(Boolean isFinished) {
+
+        // References the exmain_video_container layout.
+        LinearLayout exmainNextContainer = (LinearLayout) findViewById(R.id.exmain_next_container);
+
+        // Displays the loading container.
+        if (isFinished) { exmainNextContainer.setVisibility(View.VISIBLE); }
+
+        // Hides the loading container.
+        else { exmainNextContainer.setVisibility(View.GONE); }
     }
 
     // displayVideo(): Displays the video container containing the VideoView.
@@ -266,6 +295,8 @@ public class EXMain extends FragmentActivity {
     private void setUpButtons() {
 
         // Sets the references to the buttons.
+        nextButton = (Button) findViewById(R.id.exmain_next_button);
+        rewatchButton = (Button) findViewById(R.id.exmain_rewatch_button);
         menuLeftButton = (ImageButton) findViewById(R.id.exmain_left_button);
         menuRightButton = (ImageButton) findViewById(R.id.exmain_right_button);
         video_1 = (ImageButton) findViewById(R.id.exmain_video_1);
@@ -274,6 +305,7 @@ public class EXMain extends FragmentActivity {
         video_4 = (ImageButton) findViewById(R.id.exmain_video_4);
 
         // References the TextView objects.
+        exmain_completion_text = (TextView) findViewById(R.id.exmain_completion_text);
         exmain_default_1 = (TextView) findViewById(R.id.exmain_video_1_default_text);
         exmain_default_2 = (TextView) findViewById(R.id.exmain_video_2_default_text);
         exmain_default_3 = (TextView) findViewById(R.id.exmain_video_3_default_text);
@@ -285,11 +317,14 @@ public class EXMain extends FragmentActivity {
         video_text_4 = (TextView) findViewById(R.id.exmain_video_text_4);
 
         // Sets a custom font style to the buttons.
+        exmain_completion_text.setTypeface(EXFont.getInstance(this).getTypeFace());
         exmain_default_1.setTypeface(EXFont.getInstance(this).getTypeFace());
         exmain_default_2.setTypeface(EXFont.getInstance(this).getTypeFace());
         exmain_default_3.setTypeface(EXFont.getInstance(this).getTypeFace());
         exmain_default_4.setTypeface(EXFont.getInstance(this).getTypeFace());
         loading_text.setTypeface(EXFont.getInstance(this).getTypeFace());
+        nextButton.setTypeface(EXFont.getInstance(this).getTypeFace());
+        rewatchButton.setTypeface(EXFont.getInstance(this).getTypeFace());
         video_text_1.setTypeface(EXFont.getInstance(this).getTypeFace());
         video_text_2.setTypeface(EXFont.getInstance(this).getTypeFace());
         video_text_3.setTypeface(EXFont.getInstance(this).getTypeFace());
@@ -319,12 +354,12 @@ public class EXMain extends FragmentActivity {
             @Override
             public boolean onHover(View v, MotionEvent event) {
 
-                if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) {
+                // If the cursor is hovering over the container, the top layer is rendered invisible.
+                if ( (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) || (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) ) {
                     exmain_container_1.setVisibility(View.INVISIBLE);
                 }
-                else if (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
-                    exmain_container_1.setVisibility(View.INVISIBLE);
-                }
+
+                // Otherwise, the top layer is shown.
                 else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
                     exmain_container_1.setVisibility(View.VISIBLE);
                 }
@@ -333,6 +368,42 @@ public class EXMain extends FragmentActivity {
             }
         });
 
+        // Sets up the click listener and the actions for the 'REWATCH' button.
+        rewatchButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                displayNextAction(false); // Hides the exmain_next_container.
+                showVidMenu = true;
+                displayVideo(true); // Displays the video container.
+                exVideos.getInstance().launchVideo(URL + currentVideo, startingPoint); // Launches the video.
+                setVideoListener(exVideos.getInstance().exwearVideoView, 300000); // Sets a listener on the VideoView object.
+            }
+        });
+
+        // Sets up the click listener and the actions for the 'NEXT' button.
+        nextButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                displayNextAction(false); // Hides the exmain_next_container.
+                displayVideo(false); // Displays the button menu.
+
+                // Checks the name of the video that was previously played and plays the next video
+                // in the series by making a button click call.
+                if (videoLabel.equals("TRAINING 1")) { video_2.performClick(); }
+                else if (videoLabel.equals("TRAINING 2")) { video_3.performClick(); }
+                else if (videoLabel.equals("TRAINING 3")) { video_4.performClick(); }
+                else {
+                    displayVideo(true);
+                    displayCompletion(true);
+                }
+            }
+        });
+
+
         // Sets up the click listener and the actions for the 'TRAINING 1' button.
         video_1.setOnClickListener(new View.OnClickListener() {
 
@@ -340,10 +411,12 @@ public class EXMain extends FragmentActivity {
             public void onClick(View v) {
 
                 showVidMenu = true;
-                String videoName = "exwear_video_1.mp4"; // Sets the file name for the video.
+                currentVideo = "exwear_video_1.mp4"; // Sets the file name for the video.
+                videoLabel = "TRAINING 1";
+                startingPoint = 0; // Sets the starting point for the video.
                 displayVideo(true); // Displays the video container.
-                exVideos.getInstance().launchVideo(URL + videoName, 0); // Launches the video.
-                setVideoListener( exVideos.getInstance().exwearVideoView); // Sets a listener on the VideoView object.
+                exVideos.getInstance().launchVideo(URL + currentVideo, startingPoint); // Launches the video.
+                setVideoListener(exVideos.getInstance().exwearVideoView, 300000); // Sets a listener on the VideoView object.
             }
         });
 
@@ -353,12 +426,12 @@ public class EXMain extends FragmentActivity {
             @Override
             public boolean onHover(View v, MotionEvent event) {
 
-                if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) {
+                // If the cursor is hovering over the container, the top layer is rendered invisible.
+                if ( (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) || (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) ) {
                     exmain_container_2.setVisibility(View.INVISIBLE);
                 }
-                else if (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
-                    exmain_container_2.setVisibility(View.INVISIBLE);
-                }
+
+                // Otherwise, the top layer is shown.
                 else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
                     exmain_container_2.setVisibility(View.VISIBLE);
                 }
@@ -374,10 +447,12 @@ public class EXMain extends FragmentActivity {
             public void onClick(View v) {
 
                 showVidMenu = true;
-                String videoName = "exwear_video_1.mp4"; // Sets the file name for the video.
+                currentVideo = "exwear_video_1.mp4"; // Sets the file name for the video.
+                videoLabel = "TRAINING 2";
+                startingPoint = 300000; // Sets the starting point for the video.
                 displayVideo(true); // Displays the video container.
-                exVideos.getInstance().launchVideo(URL + videoName, 300000); // Launches the video.
-                setVideoListener( exVideos.getInstance().exwearVideoView); // Sets a listener on the VideoView object.
+                exVideos.getInstance().launchVideo(URL + currentVideo, startingPoint); // Launches the video.
+                setVideoListener( exVideos.getInstance().exwearVideoView, 300000); // Sets a listener on the VideoView object.
             }
         });
 
@@ -387,12 +462,12 @@ public class EXMain extends FragmentActivity {
             @Override
             public boolean onHover(View v, MotionEvent event) {
 
-                if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) {
+                // If the cursor is hovering over the container, the top layer is rendered invisible.
+                if ( (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) || (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) ) {
                     exmain_container_3.setVisibility(View.INVISIBLE);
                 }
-                else if (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
-                    exmain_container_3.setVisibility(View.INVISIBLE);
-                }
+
+                // Otherwise, the top layer is shown.
                 else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
                     exmain_container_3.setVisibility(View.VISIBLE);
                 }
@@ -408,10 +483,12 @@ public class EXMain extends FragmentActivity {
             public void onClick(View v) {
 
                 showVidMenu = true;
-                String videoName = "exwear_video_1.mp4"; // Sets the file name for the video.
+                currentVideo = "exwear_video_1.mp4"; // Sets the file name for the video.
+                videoLabel = "TRAINING 3";
+                startingPoint = 600000; // Sets the starting point for the video.
                 displayVideo(true); // Displays the video container.
-                exVideos.getInstance().launchVideo(URL + videoName, 600000); // Launches the video.
-                setVideoListener( exVideos.getInstance().exwearVideoView); // Sets a listener on the VideoView object.
+                exVideos.getInstance().launchVideo(URL + currentVideo, startingPoint); // Launches the video.
+                setVideoListener( exVideos.getInstance().exwearVideoView, 300000); // Sets a listener on the VideoView object.
             }
         });
 
@@ -421,12 +498,12 @@ public class EXMain extends FragmentActivity {
             @Override
             public boolean onHover(View v, MotionEvent event) {
 
-                if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) {
+                // If the cursor is hovering over the container, the top layer is rendered invisible.
+                if ( (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) || event.getAction() == MotionEvent.ACTION_HOVER_MOVE ) {
                     exmain_container_4.setVisibility(View.INVISIBLE);
                 }
-                else if (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
-                    exmain_container_4.setVisibility(View.INVISIBLE);
-                }
+
+                // Otherwise, the top layer is shown.
                 else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
                     exmain_container_4.setVisibility(View.VISIBLE);
                 }
@@ -442,10 +519,12 @@ public class EXMain extends FragmentActivity {
             public void onClick(View v) {
 
                 showVidMenu = true;
-                String videoName = "exwear_video_1.mp4"; // Sets the file name for the video.
+                currentVideo = "exwear_video_1.mp4"; // Sets the file name for the video.
+                videoLabel = "TRAINING 4";
+                startingPoint = 900000; // Sets the starting point for the video.
                 displayVideo(true); // Displays the video container.
-                exVideos.getInstance().launchVideo(URL + videoName, 900000); // Launches the video.
-                setVideoListener( exVideos.getInstance().exwearVideoView); // Sets a listener on the VideoView object.
+                exVideos.getInstance().launchVideo(URL + currentVideo, startingPoint); // Launches the video.
+                setVideoListener(exVideos.getInstance().exwearVideoView, 300000); // Sets a listener on the VideoView object.
             }
         });
     }
@@ -480,15 +559,42 @@ public class EXMain extends FragmentActivity {
     /** ADDITIONAL FUNCTIONALITY _______________________________________________________________ **/
 
     // setVideoListener(): Used for handling situations while the video is loading.
-    private void setVideoListener(VideoView view) {
+    private void setVideoListener(final VideoView view, final int finishTime) {
 
         displayLoading(true); // Displays the loading container.
 
         // Sets a listener on the VideoView object.
         view.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+            // Runs when the video has finished loading.
+            @Override
             public void onPrepared(MediaPlayer mp) {
                 displayLoading(false); // Displays the loading container.
                 displayVideo(true); // Displays the video container.
+
+                // Retrieves the video's total length.
+                EXVideos.getInstance().videoLength = view.getDuration();
+
+                // Pauses the video after 15 seconds.
+                view.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        view.seekTo( (int) EXVideos.getInstance().videoLength); // Skips to end of video to indicate video playback completion.
+
+                    }
+                }, finishTime);
+            }
+        });
+
+        // Sets a completed listener object.
+        view.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+        {
+            @Override
+            public void onCompletion(MediaPlayer mp)
+            {
+                // Video Playing is completed
+                displayNextAction(true); // Displays the buttons after the video has finished.
             }
         });
     }

@@ -322,8 +322,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/exmain_video_view_container"
-                    android:layout_weight="1"
-                    android:visibility="visible">
+                    android:layout_weight="1">
 
                     <VideoView
                         android:id="@+id/exmain_video_view"
@@ -363,6 +362,62 @@
                     </FrameLayout>
 
                 </FrameLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:background="@android:color/black"
+                    android:id="@+id/exmain_next_container"
+                    android:visibility="gone">
+
+                    <Button
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:text="REWATCH"
+                        android:id="@+id/exmain_rewatch_button"
+                        android:layout_gravity="center"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/white" />
+
+                    <Button
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:text="NEXT"
+                        android:id="@+id/exmain_next_button"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@android:color/black"
+                    android:id="@+id/exmain_completion_container"
+                    android:visibility="gone">
+
+                    <FrameLayout
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ex_menu_clickable"
+                        android:id="@+id/exmain_completion_subcontainer" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CONGRATULATIONS!\nYOU HAVE FINISHED THE COURSE!"
+                            android:id="@+id/exmain_completion_text"
+                            android:typeface="sans"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/white"
+                            android:gravity="center"
+                            android:layout_gravity="center" />
+                    </FrameLayout>
+                </FrameLayout>
+
             </FrameLayout>
 
             <ImageButton

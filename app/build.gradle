@@ -23,6 +23,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('libs/scanditsdk-barcodepicker-android-4.0.1.jar')
     compile files('libs/gson-2.2.4.jar')
-    compile 'com.android.support:appcompat-v7:+'
+    compile 'com.android.support:appcompat-v7:19.+'
     compile 'it.sephiroth.android.library.picasso:picasso:2.1.6'
 }

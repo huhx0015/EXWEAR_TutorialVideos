@@ -1,6 +1,4 @@
 <resources>
     <string name="app_name">EXWEAR</string>
     <color name="dark_orange">#FF8000</color>
-    <string name="glass_voice_trigger">Initiate Scan</string>
-    <string name="glass_voice_prompt">Scan Now?</string>
 </resources>

@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.Display;
 import android.view.KeyEvent;
@@ -15,9 +16,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /** -----------------------------------------------------------------------------------------------
  *  [EXMain] CLASS
@@ -26,7 +31,7 @@ import android.widget.VideoView;
  *  -----------------------------------------------------------------------------------------------
  */
 
-public class EXMain extends FragmentActivity {
+public class EXMain extends FragmentActivity implements MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener {
 
     /** CLASS VARIABLES ________________________________________________________________________ **/
 
@@ -37,14 +42,22 @@ public class EXMain extends FragmentActivity {
 
     // LAYOUT VARIABLES
     private Boolean showVidMenu = false; // Used to determine if the video menu is currently being displayed.
+    private Boolean onHoverState = false; // Used to determine if a button is currently being hovered over.
     private Button rewatchButton, nextButton; // References the REWATCH & NEXT buttons.
     private FrameLayout exmain_container_1, exmain_container_2, exmain_container_3, exmain_container_4;
+    private FrameLayout exmain_2_container_1, exmain_2_container_2, exmain_2_container_3, exmain_2_container_4;
     private ImageButton menuLeftButton, menuRightButton, video_1, video_2, video_3, video_4;
+    private ImageButton btnPage2_video_1, btnPage2_video_2, btnPage2_video_3, btnPage2_video_4;
+    private int currentPage = 1; // Used to determine which button page is currently active.
+    private int MAX_PAGES = 2; // Used to determine the number of button pages.
     private LinearLayout exmain_button_row_1, exmain_button_row_2, exmain_video_row_1, exmain_video_row_2;
     private TextView exmain_completion_text, exmain_default_1, exmain_default_2, exmain_default_3, exmain_default_4,
             loading_text, video_text_1, video_text_2, video_text_3, video_text_4;
+    private TextView exmain_2_default_1, exmain_2_default_2, exmain_2_default_3, exmain_2_default_4,
+            btnPage2_video_text_1, btnPage2_video_text_2, btnPage2_video_text_3, btnPage2_video_text_4;
     private VideoView exmainVideoView; // Used to reference the VideoView view object.
 
+    // VIDEO VARIABLES
     private String videoLabel; // Used to determine the name of the video segment that was previously being played.
     private String currentVideo; // Used to determine the video that is currently being played.
     private int startingPoint; // Used to determine the video's starting position.
@@ -54,6 +67,9 @@ public class EXMain extends FragmentActivity {
     private int displaySize; // Stores the device's display size.
     private final int RESULT_CLOSE_ALL = 1; // Used for startActivityForResult activity termination.
     private final String URL =  "http://www.yoonhuh.com/Misc/EXWEAR/"; // Stores the URL where the videos are stored.
+
+    // SEEKBAR VARIABLES
+    SeekBar exwearProgress;
 
     /** ACTIVITY LIFECYCLE FUNCTIONALITY _______________________________________________________ **/
 
@@ -202,6 +218,25 @@ public class EXMain extends FragmentActivity {
 
     /** LAYOUT FUNCTIONALITY _______________________________________________________________ **/
 
+    // changePage(): Changes the button page.
+    private void changePage(int page) {
+
+        LinearLayout exmainButtonContainer = (LinearLayout) findViewById(R.id.exmain_button_container);
+        LinearLayout exmain_button_container_2 = (LinearLayout) findViewById(R.id.exmain_button_container_2);
+
+        // If the page is 1, shows the first button menu and hides the second.
+        if (page == 1) {
+            exmainButtonContainer.setVisibility(View.VISIBLE);
+            exmain_button_container_2.setVisibility(View.GONE);
+        }
+
+        // If the page is 2, shows the second button menu and hides the first.
+        else if (page == 2) {
+            exmainButtonContainer.setVisibility(View.GONE);
+            exmain_button_container_2.setVisibility(View.VISIBLE);
+        }
+    }
+
     // displayLoading(): Displays the completion screen.
     private void displayCompletion(Boolean isCompleted) {
 
@@ -254,7 +289,6 @@ public class EXMain extends FragmentActivity {
             exmainButtonContainer.setVisibility(View.GONE);
             menuLeftButton.setVisibility(View.GONE);
             menuRightButton.setVisibility(View.GONE);
-
             showVidMenu = true;
         }
 
@@ -265,7 +299,6 @@ public class EXMain extends FragmentActivity {
             exmainButtonContainer.setVisibility(View.VISIBLE);
             menuLeftButton.setVisibility(View.VISIBLE);
             menuRightButton.setVisibility(View.VISIBLE);
-
             showVidMenu = false;
         }
     }
@@ -303,6 +336,10 @@ public class EXMain extends FragmentActivity {
         video_2 = (ImageButton) findViewById(R.id.exmain_video_2);
         video_3 = (ImageButton) findViewById(R.id.exmain_video_3);
         video_4 = (ImageButton) findViewById(R.id.exmain_video_4);
+        btnPage2_video_1 = (ImageButton) findViewById(R.id.exmain_2_video_1);
+        btnPage2_video_2 = (ImageButton) findViewById(R.id.exmain_2_video_2);
+        btnPage2_video_3 = (ImageButton) findViewById(R.id.exmain_2_video_3);
+        btnPage2_video_4 = (ImageButton) findViewById(R.id.exmain_2_video_4);
 
         // References the TextView objects.
         exmain_completion_text = (TextView) findViewById(R.id.exmain_completion_text);
@@ -310,11 +347,19 @@ public class EXMain extends FragmentActivity {
         exmain_default_2 = (TextView) findViewById(R.id.exmain_video_2_default_text);
         exmain_default_3 = (TextView) findViewById(R.id.exmain_video_3_default_text);
         exmain_default_4 = (TextView) findViewById(R.id.exmain_video_4_default_text);
+        exmain_2_default_1 = (TextView) findViewById(R.id.exmain_2_video_default_text_1);
+        exmain_2_default_2 = (TextView) findViewById(R.id.exmain_2_video_2_default_text);
+        exmain_2_default_3 = (TextView) findViewById(R.id.exmain_2_video_3_default_text);
+        exmain_2_default_4 = (TextView) findViewById(R.id.exmain_2_video_4_default_text);
         loading_text = (TextView) findViewById(R.id.exmain_loading_text);
         video_text_1 = (TextView) findViewById(R.id.exmain_video_text_1);
         video_text_2 = (TextView) findViewById(R.id.exmain_video_text_2);
         video_text_3 = (TextView) findViewById(R.id.exmain_video_text_3);
         video_text_4 = (TextView) findViewById(R.id.exmain_video_text_4);
+        btnPage2_video_text_1 = (TextView) findViewById(R.id.exmain_2_video_text_1);
+        btnPage2_video_text_2 = (TextView) findViewById(R.id.exmain_2_video_text_2);
+        btnPage2_video_text_3 = (TextView) findViewById(R.id.exmain_2_video_text_3);
+        btnPage2_video_text_4 = (TextView) findViewById(R.id.exmain_2_video_text_4);
 
         // Sets a custom font style to the buttons.
         exmain_completion_text.setTypeface(EXFont.getInstance(this).getTypeFace());
@@ -322,6 +367,10 @@ public class EXMain extends FragmentActivity {
         exmain_default_2.setTypeface(EXFont.getInstance(this).getTypeFace());
         exmain_default_3.setTypeface(EXFont.getInstance(this).getTypeFace());
         exmain_default_4.setTypeface(EXFont.getInstance(this).getTypeFace());
+        exmain_2_default_1.setTypeface(EXFont.getInstance(this).getTypeFace());
+        exmain_2_default_2.setTypeface(EXFont.getInstance(this).getTypeFace());
+        exmain_2_default_3.setTypeface(EXFont.getInstance(this).getTypeFace());
+        exmain_2_default_4.setTypeface(EXFont.getInstance(this).getTypeFace());
         loading_text.setTypeface(EXFont.getInstance(this).getTypeFace());
         nextButton.setTypeface(EXFont.getInstance(this).getTypeFace());
         rewatchButton.setTypeface(EXFont.getInstance(this).getTypeFace());
@@ -329,6 +378,10 @@ public class EXMain extends FragmentActivity {
         video_text_2.setTypeface(EXFont.getInstance(this).getTypeFace());
         video_text_3.setTypeface(EXFont.getInstance(this).getTypeFace());
         video_text_4.setTypeface(EXFont.getInstance(this).getTypeFace());
+        btnPage2_video_text_1.setTypeface(EXFont.getInstance(this).getTypeFace());
+        btnPage2_video_text_2.setTypeface(EXFont.getInstance(this).getTypeFace());
+        btnPage2_video_text_3.setTypeface(EXFont.getInstance(this).getTypeFace());
+        btnPage2_video_text_4.setTypeface(EXFont.getInstance(this).getTypeFace());
 
         // Sets up the listener and the actions for the left menu button.
         menuLeftButton.setOnClickListener(new View.OnClickListener() {
@@ -336,6 +389,8 @@ public class EXMain extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
+                // If the currentPage is not the first page, the previous button page is displayed.
+                if (currentPage < MAX_PAGES) { changePage(currentPage++); }
             }
         });
 
@@ -345,6 +400,8 @@ public class EXMain extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
+                // If the currentPage is less than the number of MAX_PAGES, the next button page is displayed.
+                if (currentPage > 1) { changePage(currentPage--); }
             }
         });
 
@@ -354,14 +411,22 @@ public class EXMain extends FragmentActivity {
             @Override
             public boolean onHover(View v, MotionEvent event) {
 
-                // If the cursor is hovering over the container, the top layer is rendered invisible.
-                if ( (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) || (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) ) {
-                    exmain_container_1.setVisibility(View.INVISIBLE);
+                if (onHoverState == false) {
+
+                    // If the cursor is hovering over the container, the top layer is rendered invisible.
+                    if ( (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) || (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) ) {
+                        exmain_container_1.setVisibility(View.INVISIBLE);
+                        onHoverState = true; // Sets the hover state status.
+                    }
+
                 }
 
-                // Otherwise, the top layer is shown.
-                else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
-                    exmain_container_1.setVisibility(View.VISIBLE);
+                else {
+                    // Otherwise, the top layer is shown.
+                    if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
+                        exmain_container_1.setVisibility(View.VISIBLE);
+                        onHoverState = false;
+                    }
                 }
 
                 return true;
@@ -426,14 +491,24 @@ public class EXMain extends FragmentActivity {
             @Override
             public boolean onHover(View v, MotionEvent event) {
 
-                // If the cursor is hovering over the container, the top layer is rendered invisible.
-                if ( (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) || (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) ) {
-                    exmain_container_2.setVisibility(View.INVISIBLE);
+                if (onHoverState == false) {
+
+                    // If the cursor is hovering over the container, the top layer is rendered invisible.
+                    if ( (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) || (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) ) {
+                        exmain_container_2.setVisibility(View.INVISIBLE);
+                        onHoverState = true; // Sets the hover state status.
+                    }
+
                 }
 
-                // Otherwise, the top layer is shown.
-                else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
-                    exmain_container_2.setVisibility(View.VISIBLE);
+                else {
+
+                    // Otherwise, the top layer is shown.
+                    if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
+                        exmain_container_2.setVisibility(View.VISIBLE);
+                        onHoverState = false;
+                    }
+
                 }
 
                 return true;
@@ -462,14 +537,24 @@ public class EXMain extends FragmentActivity {
             @Override
             public boolean onHover(View v, MotionEvent event) {
 
-                // If the cursor is hovering over the container, the top layer is rendered invisible.
-                if ( (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) || (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) ) {
-                    exmain_container_3.setVisibility(View.INVISIBLE);
+                if (onHoverState == false) {
+
+                    // If the cursor is hovering over the container, the top layer is rendered invisible.
+                    if ( (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) || (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) ) {
+                        exmain_container_3.setVisibility(View.INVISIBLE);
+                        onHoverState = true; // Sets the hover state status.
+                    }
+
                 }
 
-                // Otherwise, the top layer is shown.
-                else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
-                    exmain_container_3.setVisibility(View.VISIBLE);
+                else {
+
+                    // Otherwise, the top layer is shown.
+                    if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
+                        exmain_container_3.setVisibility(View.VISIBLE);
+                        onHoverState = false;
+                    }
+
                 }
 
                 return true;
@@ -498,14 +583,24 @@ public class EXMain extends FragmentActivity {
             @Override
             public boolean onHover(View v, MotionEvent event) {
 
-                // If the cursor is hovering over the container, the top layer is rendered invisible.
-                if ( (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) || event.getAction() == MotionEvent.ACTION_HOVER_MOVE ) {
-                    exmain_container_4.setVisibility(View.INVISIBLE);
+                if (onHoverState == false) {
+
+                    // If the cursor is hovering over the container, the top layer is rendered invisible.
+                    if ( (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) || (event.getAction() == MotionEvent.ACTION_HOVER_MOVE) ) {
+                        exmain_container_4.setVisibility(View.INVISIBLE);
+                        onHoverState = true; // Sets the hover state status.
+                    }
+
                 }
 
-                // Otherwise, the top layer is shown.
-                else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
-                    exmain_container_4.setVisibility(View.VISIBLE);
+                else {
+
+                    // Otherwise, the top layer is shown.
+                    if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
+                        exmain_container_4.setVisibility(View.VISIBLE);
+                        onHoverState = false;
+                    }
+
                 }
 
                 return true;
@@ -528,6 +623,17 @@ public class EXMain extends FragmentActivity {
             }
         });
     }
+
+
+    private void setUpSeekBar() {
+
+        exwearProgress = (SeekBar) findViewById(R.id.exmain_seekbar);
+
+        // Listeners
+        exwearProgress.setOnSeekBarChangeListener(this); // Important
+        //mp.setOnCompletionListener(this); // Important
+    }
+
 
     // toastyPopUp(): Creates and displays a Toast popup, informing the user that Google Maps needs
     // to be installed to continue.
@@ -616,4 +722,28 @@ public class EXMain extends FragmentActivity {
             e.printStackTrace(); // Prints error message.
         }
     }
+
+    //----------------------------------------------------------------------------------------------
+
+    /** ON COMPLETION FUNCTIONALITY **/
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {}
+
+    /** SEEKBAR FUNCTIONALITY **/
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {}
+
+    /**
+     * When user starts moving the progress handler
+     * */
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {}
+
+    /**
+     * When user stops moving the progress hanlder
+     * */
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {}
 }

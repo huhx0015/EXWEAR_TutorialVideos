@@ -184,6 +184,176 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:id="@+id/exmain_button_container_2"
+            android:layout_weight="1"
+            android:focusableInTouchMode="false"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/linearLayout" >
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/frameLayout"
+                    android:layout_weight="1" >
+
+                    <ImageButton
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:text="START ENGINE"
+                        android:id="@+id/imageButton"
+                        android:layout_gravity="center"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:textColor="@android:color/white"
+                        android:typeface="sans"
+                        android:background="@drawable/ex_menu_clickable"
+                        android:src="@drawable/step1"
+                        android:scaleType="fitXY"
+                        android:clickable="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="START ENGINE"
+                        android:id="@+id/textView"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:typeface="sans"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="center_horizontal"
+                        android:clickable="true"
+                        android:padding="5dp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/frameLayout2"
+                    android:layout_weight="1" >
+
+                    <ImageButton
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:text="TAKE OFF"
+                        android:id="@+id/imageButton2"
+                        android:layout_gravity="center"
+                        android:layout_above="@+id/ex_button_4"
+                        android:layout_toRightOf="@+id/ex_button_1"
+                        android:textColor="@android:color/white"
+                        android:typeface="sans"
+                        android:background="@drawable/ex_menu_clickable"
+                        android:src="@drawable/step2"
+                        android:scaleType="fitXY"
+                        android:clickable="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TAKE OFF"
+                        android:id="@+id/textView2"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"
+                        android:typeface="sans"
+                        android:textSize="18sp"
+                        android:layout_gravity="top|center_horizontal"
+                        android:padding="5dp" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/linearLayout2" >
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/frameLayout3"
+                    android:layout_weight="1" >
+
+                    <ImageButton
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:text="IN FLIGHT"
+                        android:id="@+id/imageButton3"
+                        android:layout_alignTop="@+id/ex_button_4"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:textColor="@android:color/white"
+                        android:layout_gravity="center"
+                        android:typeface="sans"
+                        android:background="@drawable/ex_menu_clickable"
+                        android:src="@drawable/step3"
+                        android:scaleType="fitXY"
+                        android:clickable="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView3"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:typeface="sans"
+                        android:text="IN FLIGHT"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="5dp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/frameLayout4"
+                    android:layout_weight="1" >
+
+                    <ImageButton
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:text="LANDING"
+                        android:id="@+id/imageButton4"
+                        android:layout_below="@+id/ex_button_1"
+                        android:layout_toRightOf="@+id/ex_button_3"
+                        android:textColor="@android:color/white"
+                        android:layout_gravity="center"
+                        android:typeface="sans"
+                        android:background="@drawable/ex_menu_clickable"
+                        android:src="@drawable/step4"
+                        android:scaleType="fitXY"
+                        android:clickable="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="LANDING"
+                        android:id="@+id/textView4"
+                        android:textStyle="bold"
+                        android:typeface="sans"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/white"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="5dp" />
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -194,7 +364,14 @@
             <VideoView
                 android:id="@+id/exmain_video_view"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" />
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                />
+
+
         </RelativeLayout>
 
     </LinearLayout>

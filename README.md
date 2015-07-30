@@ -2,5 +2,6 @@ EXWEAR_Tutorial_Videos
 ======================
 
 Programmer: Michael Huh
+Status: Inactive
 
-This is a simple application that displays video tutorials for users wearing the EPSON Moverio BT-200 smart glasses device.
+This is a demo application designed for the EPSON Moverio BT-200, which displays sample video tutorials for users wearing the device.

@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.gpop.exwear.EXVideos;
+
 /** -----------------------------------------------------------------------------------------------
  *  [EXMain] CLASS
  *  DESCRIPTION: EXMain class is a FragmentActivity class that displays the main menu and displays

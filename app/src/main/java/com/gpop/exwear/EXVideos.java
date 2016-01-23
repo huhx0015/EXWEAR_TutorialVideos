@@ -1,9 +1,7 @@
 package com.gpop.exwear;
 
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.VideoView;
@@ -79,17 +77,6 @@ public class EXVideos {
         });
         */
 
-
-
-
-
-
-
-
-
-
-
-
 /*
         // EXPERIMENTAL (TO DETECT IF VIDEO HAS STOPPED PLAYING.
         exwearVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
@@ -101,11 +88,7 @@ public class EXVideos {
             }
         });
 */
-
-
-
     }
-
 
     // skipToPosition(): Fast forwards or rewinds the video.
     public void skipToPosition(Boolean isForward) {

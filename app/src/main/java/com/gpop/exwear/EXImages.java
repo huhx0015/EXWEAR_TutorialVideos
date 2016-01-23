@@ -7,8 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-/**
- * Created by Michael Yoon Huh on 6/23/2014.
+/** -----------------------------------------------------------------------------------------------
+ *  [EXImages] CLASS
+ *  DESCRIPTION: This class contains methods for determining the display and resolution attributes
+ *  of the device.
+ *  -----------------------------------------------------------------------------------------------
  */
 
 public class EXImages {

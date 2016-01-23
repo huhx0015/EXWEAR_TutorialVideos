@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.Display;
 import android.view.KeyEvent;
@@ -15,14 +14,10 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /** -----------------------------------------------------------------------------------------------
  *  [EXMain] CLASS
@@ -742,7 +737,7 @@ public class EXMain extends FragmentActivity implements MediaPlayer.OnCompletion
     public void onStartTrackingTouch(SeekBar seekBar) {}
 
     /**
-     * When user stops moving the progress hanlder
+     * When user stops moving the progress handler
      * */
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {}
